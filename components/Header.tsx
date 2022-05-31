@@ -22,8 +22,8 @@ const Header = () => {
       </div>
       <div className="flex items-center justify-between mx-2 space-x-2 xl:min-w-[300px] lg:min-w-[260px]">
         <AiTwotoneHome className="h-5 w-5 cursor-pointer" />
-        <p className="text-sm hidden lg:inline flex-1">Home</p>
-        <FaChevronDown className="hidden lg:inline cursor-pointer" />
+        <p className="text-sm hidden lg:inline flex-1 mt-1">Home</p>
+        <FaChevronDown className="hidden lg:inline cursor-pointer mt-1" />
       </div>
       <form className="flex items-center text-sm space-x-2 bg-gray-200 flex-1 rounded-sm py-1 px-2">
         <ImSearch className="h-4 w-4 text-gray-600" />
@@ -34,7 +34,7 @@ const Header = () => {
         />
         <button type="submit" hidden />
       </form>
-      <div className="flex items-center space-x-1 lg:space-x-2">
+      <div className="flex items-center space-x-1 lg:space-x-2 mx-1">
         <div className="items-center hidden lg:flex lg:space-x-2 ml-2">
           <BsArrowUpRightCircle className="icon_header" />
           <MdOutlineGraphicEq className="icon_header border border-black rounded-full" />
@@ -49,13 +49,13 @@ const Header = () => {
           </p>
         </div>
         <FiPlus className="icon_header" />
-        <HiOutlineSpeakerphone className="icon_header" />
-        <div className="border border-orange-400 flex items-center rounded-full px-2 py-1 bg-orange-400">
+        <HiOutlineSpeakerphone className="icon_header bg-gray-100 rounded-full p-1 h-7 w-7" />
+        <div className="border border-orange-400 items-center rounded-full px-2 py-1 bg-orange-400 hidden sm:flex">
           <RiCoinLine className="icon_header -rotate-90" />
           <p className="text-sm ml-1">Free</p>
         </div>
       </div>
-      <div className="hidden md:flex md:items-center  px-2 py-0.5 mx-1 lg:py-0">
+      <div className="hidden md:flex md:items-center  px-2 py-0.5 mr-1 lg:py-0">
         <Image
           src="https://avatars.githubusercontent.com/u/84827162?v=4"
           height={25}
