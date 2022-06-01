@@ -9,8 +9,11 @@ import { BiVideoRecording } from 'react-icons/bi';
 import { FiBell, FiPlus } from 'react-icons/fi';
 import { HiOutlineSpeakerphone } from 'react-icons/hi';
 import { RiCoinLine } from 'react-icons/ri';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import { FcRating } from 'react-icons/fc';
 
 const Header = () => {
+  const { data: session } = useSession();
   return (
     <div className=" sticky top-0 z-25 flex items-center shadow-sm bg-white w-full">
       <div className="relative h-10 w-20 flex-shrink-0 cursor-pointer mx-2">
@@ -28,14 +31,14 @@ const Header = () => {
       <form className="flex items-center text-sm space-x-2 bg-gray-200 flex-1 rounded-sm py-1 px-2">
         <ImSearch className="h-4 w-4 text-gray-600" />
         <input
-          className="bg-gray-200 outline-none flex-1"
+          className="bg-gray-200 outline-none flex-1 text-sm"
           type="text"
           placeholder="Search Reddit"
         />
         <button type="submit" hidden />
       </form>
-      <div className="flex items-center space-x-1 lg:space-x-2 mx-1">
-        <div className="items-center hidden lg:flex lg:space-x-2 ml-2">
+      <div className="flex items-center space-x-1 lg:space-x-3 mx-1">
+        <div className="items-center hidden lg:flex lg:space-x-3 ml-2">
           <BsArrowUpRightCircle className="icon_header" />
           <MdOutlineGraphicEq className="icon_header border border-black rounded-full" />
           <BiVideoRecording className="icon_header" />
@@ -50,25 +53,47 @@ const Header = () => {
         </div>
         <FiPlus className="icon_header" />
         <HiOutlineSpeakerphone className="icon_header bg-gray-100 rounded-full p-1 h-7 w-7" />
-        <div className="border border-orange-400 items-center rounded-full px-2 py-1 bg-orange-400 hidden sm:flex">
+        <div className="border border-orange-400 items-center rounded-full px-2 py-1 bg-gradient-to-b from-yellow-300 to-orange-400 hidden sm:flex hover:opacity-90 cursor-pointer">
           <RiCoinLine className="icon_header -rotate-90" />
-          <p className="text-sm ml-1">Free</p>
+          <p className="text-xs mx-1 font-semibold">Free</p>
         </div>
       </div>
-      <div className="hidden md:flex md:items-center  px-2 py-0.5 mr-1 lg:py-0">
-        <Image
-          src="https://avatars.githubusercontent.com/u/84827162?v=4"
-          height={25}
-          width={25}
-          className="rounded-full cursor-pointer"
-          objectFit="contain"
-        />
-        <div className="hidden lg:flex lg:flex-col ml-1">
-          <p className="text-xs">Strider</p>
-          <p className="text-[10px]">12 karma</p>
+      {session ? (
+        <div className="hidden md:flex md:items-center  px-2 py-0.5 mr-1 lg:py-0 hover:border hover:border-gray-100 hover:rounded-sm min-w-[150px]">
+          <Image
+            src="https://i.redd.it/snoovatar/avatars/21ce363a-2c8d-4ab1-bb53-d34f97fc79ce.png"
+            height={25}
+            width={25}
+            className="rounded-full cursor-pointer"
+            objectFit="contain"
+            onClick={() => signOut()}
+          />
+          <div className="hidden md:flex md:flex-col ml-1 flex-1">
+            <p className="text-xs truncate">{session?.user?.name}</p>
+            <div className="flex items-center space-x-1">
+              <FcRating className="w-2 h-2" />
+              <p className="text-[10px]">12 karma</p>
+            </div>
+          </div>
+          <FaChevronDown className="h-3 w-3 ml-2 cursor-pointer" />
         </div>
-        <FaChevronDown className="h-3 w-3 ml-2 cursor-pointer" />
-      </div>
+      ) : (
+        <div className="hidden md:flex md:items-center  px-2 py-0.5 mr-1 lg:py-0 hover:border hover:border-gray-100 hover:rounded-sm min-w-[150px]">
+          <Image
+            src="https://www.iconpacks.net/icons/2/free-reddit-logo-icon-2436-thumb.png"
+            height={25}
+            width={25}
+            className="rounded-full cursor-pointer"
+            objectFit="contain"
+            onClick={() => signIn()}
+          />
+          <div className="hidden md:flex md:flex-col ml-1 flex-1">
+            <p className="text-xs">Sign In</p>
+            <p className="text-[10px]"></p>
+          </div>
+          <FaChevronDown className="h-3 w-3 ml-2 cursor-pointer" />
+        </div>
+      )}
     </div>
   );
 };
