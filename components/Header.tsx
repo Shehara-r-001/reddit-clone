@@ -21,6 +21,7 @@ const Header = () => {
           src="https://upload.wikimedia.org/wikipedia/en/5/58/Reddit_logo_new.svg"
           layout="fill"
           objectFit="contain"
+          priority={true}
         />
       </div>
       <div className="flex items-center justify-between mx-2 space-x-2 xl:min-w-[300px] lg:min-w-[260px]">
@@ -28,10 +29,10 @@ const Header = () => {
         <p className="text-sm hidden lg:inline flex-1 mt-1">Home</p>
         <FaChevronDown className="hidden lg:inline cursor-pointer mt-1" />
       </div>
-      <form className="flex items-center text-sm space-x-2 bg-gray-200 flex-1 rounded-sm py-1 px-2">
+      <form className="flex items-center text-sm space-x-2 bg-gray-100 flex-1 rounded-sm py-1 px-2">
         <ImSearch className="h-4 w-4 text-gray-600" />
         <input
-          className="bg-gray-200 outline-none flex-1 text-sm"
+          className="bg-gray-100 outline-none flex-1 text-sm"
           type="text"
           placeholder="Search Reddit"
         />
@@ -54,14 +55,16 @@ const Header = () => {
         <FiPlus className="icon_header" />
         <HiOutlineSpeakerphone className="icon_header bg-gray-100 rounded-full p-1 h-7 w-7" />
         <div className="border border-orange-400 items-center rounded-full px-2 py-1 bg-gradient-to-b from-yellow-300 to-orange-400 hidden sm:flex hover:opacity-90 cursor-pointer">
-          <RiCoinLine className="icon_header -rotate-90" />
+          <RiCoinLine className="icon_header text-gray-700 -rotate-90" />
           <p className="text-xs mx-1 font-semibold">Free</p>
         </div>
       </div>
       {session ? (
         <div className="hidden md:flex md:items-center  px-2 py-0.5 mr-1 lg:py-0 hover:border hover:border-gray-100 hover:rounded-sm min-w-[150px]">
           <Image
-            src="https://i.redd.it/snoovatar/avatars/21ce363a-2c8d-4ab1-bb53-d34f97fc79ce.png"
+            src={`https://avatars.dicebear.com/api/open-peeps/${
+              session?.user?.name || 'placeholder'
+            }.svg`}
             height={25}
             width={25}
             className="rounded-full cursor-pointer"

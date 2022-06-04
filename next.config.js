@@ -7,6 +7,7 @@ module.exports = {
       'avatars.githubusercontent.com',
       'i.redd.it',
       'www.iconpacks.net',
+      'avatars.dicebear.com',
     ],
   },
 };
