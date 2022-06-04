@@ -10,7 +10,7 @@
 
 @layer components {
   .icon_header {
-    @apply h-5 w-5 cursor-pointer hover:scale-110 transition duration-200 text-gray-500;
+    @apply h-5 w-5 cursor-pointer hover:scale-110 hover:text-black transition duration-200 text-gray-500;
   }
 
   .iconAddPost {

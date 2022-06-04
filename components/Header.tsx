@@ -25,7 +25,7 @@ const Header = () => {
         />
       </div>
       <div className="flex items-center justify-between mx-2 space-x-2 xl:min-w-[300px] lg:min-w-[260px]">
-        <AiTwotoneHome className="h-5 w-5 cursor-pointer" />
+        <AiTwotoneHome className="h-5 w-5 cursor-pointer hover:scale-110 duration-300" />
         <p className="text-sm hidden lg:inline flex-1 mt-1">Home</p>
         <FaChevronDown className="hidden lg:inline cursor-pointer mt-1" />
       </div>
