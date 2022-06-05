@@ -57,8 +57,6 @@ const AddPost = () => {
           },
         });
 
-        console.log('Creating the post', formData);
-
         const image = formData.postImage || '';
 
         const {
@@ -110,7 +108,7 @@ const AddPost = () => {
   return (
     <form
       onSubmit={onSubmit}
-      className="sticky top-[50px] z-20 bg-white rounded-sm shadow-sm mx-2 p-1 px-2"
+      className="sticky top-[50px] z-20 bg-white rounded-sm shadow-sm  p-1 px-2"
     >
       <div className="flex items-center space-x-3">
         <Avatar />
