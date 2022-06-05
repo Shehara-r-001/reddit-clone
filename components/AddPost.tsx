@@ -4,6 +4,12 @@ import Avatar from './Avatar';
 import { FiLink } from 'react-icons/fi';
 import { BiImageAdd } from 'react-icons/bi';
 import { useForm } from 'react-hook-form';
+import { useMutation } from '@apollo/client';
+import { ADD_POST, ADD_SUBREDDIT } from '../graphql/mutations';
+import client from '../apollo-client';
+import { GET_SUBREDDIT_BY_TOPIC } from '../graphql/queries';
+import toast from 'react-hot-toast';
+import { log } from 'console';
 
 type FormData = {
   postTitle: string;
@@ -23,8 +29,82 @@ const AddPost = () => {
   } = useForm<FormData>();
   const [openImageBox, setOpenImageBox] = useState(false);
 
+  const [addPost] = useMutation(ADD_POST);
+  const [addSubreddit] = useMutation(ADD_SUBREDDIT);
+
   const onSubmit = handleSubmit(async (formData) => {
     console.log(formData);
+    const notification = toast.loading('Creating the post..');
+
+    try {
+      const {
+        data: { getSubredditListByTopic },
+      } = await client.query({
+        query: GET_SUBREDDIT_BY_TOPIC,
+        variables: {
+          topic: formData.subreddit,
+        },
+      });
+
+      const subredditExists = getSubredditListByTopic.length > 0;
+
+      if (!subredditExists) {
+        const {
+          data: { insertSubreddit: newSubreddit },
+        } = await addSubreddit({
+          variables: {
+            topic: formData.subreddit,
+          },
+        });
+
+        console.log('Creating the post', formData);
+
+        const image = formData.postImage || '';
+
+        const {
+          data: { insertPost: newPost },
+        } = await addPost({
+          variables: {
+            body: formData.postBody,
+            image: image,
+            subreddit_id: newSubreddit.id,
+            title: formData.postTitle,
+            username: session?.user?.name,
+          },
+        });
+
+        console.log('new post has been added.', newPost);
+      } else {
+        const image = formData.postImage || '';
+
+        const {
+          data: { insertPost: newPost },
+        } = await addPost({
+          variables: {
+            body: formData.postBody,
+            image: image,
+            subreddit_id: getSubredditListByTopic[0].id,
+            title: formData.postTitle,
+            username: session?.user?.name,
+          },
+        });
+        console.log('new post has been added.', newPost);
+      }
+
+      setValue('postTitle', '');
+      setValue('postBody', '');
+      setValue('postImage', '');
+      setValue('subreddit', '');
+
+      toast.success('The post has been created..!', {
+        id: notification, // will replace
+      });
+    } catch (error) {
+      toast.error('Oops..! Something went wrong..!', {
+        id: notification,
+      });
+      console.log(error);
+    }
   });
 
   return (
