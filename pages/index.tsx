@@ -4,6 +4,7 @@ import Image from 'next/image';
 import AddPost from '../components/AddPost';
 import Feed from '../components/Feed';
 import Header from '../components/Header';
+import Trending from '../components/Trending';
 
 const Home: NextPage = () => {
   return (
@@ -14,6 +15,7 @@ const Home: NextPage = () => {
       </Head>
 
       <AddPost />
+      <Trending />
       <div>
         <Feed />
       </div>

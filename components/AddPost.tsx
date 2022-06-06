@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from '@apollo/client';
 import { ADD_POST, ADD_SUBREDDIT } from '../graphql/mutations';
 import client from '../apollo-client';
-import { GET_SUBREDDIT_BY_TOPIC } from '../graphql/queries';
+import { GET_ALL_POSTS, GET_SUBREDDIT_BY_TOPIC } from '../graphql/queries';
 import toast from 'react-hot-toast';
 import { log } from 'console';
 
@@ -29,7 +29,9 @@ const AddPost = () => {
   } = useForm<FormData>();
   const [openImageBox, setOpenImageBox] = useState(false);
 
-  const [addPost] = useMutation(ADD_POST);
+  const [addPost] = useMutation(ADD_POST, {
+    refetchQueries: [GET_ALL_POSTS, 'getPostList'],
+  });
   const [addSubreddit] = useMutation(ADD_SUBREDDIT);
 
   const onSubmit = handleSubmit(async (formData) => {
@@ -93,6 +95,7 @@ const AddPost = () => {
       setValue('postBody', '');
       setValue('postImage', '');
       setValue('subreddit', '');
+      setOpenImageBox(false);
 
       toast.success('The post has been created..!', {
         id: notification, // will replace
@@ -108,7 +111,7 @@ const AddPost = () => {
   return (
     <form
       onSubmit={onSubmit}
-      className="sticky top-[50px] z-20 bg-white rounded-sm shadow-sm  p-1 px-2"
+      className="sticky top-[50px] z-20 bg-white rounded-sm shadow-sm  p-1 px-2 mx-1 lg:mx-0"
     >
       <div className="flex items-center space-x-3">
         <Avatar />
