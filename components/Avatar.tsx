@@ -4,12 +4,18 @@ import React from 'react';
 
 type Props = {
   seed?: string;
+  sub?: boolean;
 };
 
-const Avatar = ({ seed }: Props) => {
+const Avatar = ({ seed, sub }: Props) => {
   const { data: session } = useSession();
+
   return (
-    <div className="relative h-9 w-9 rounded-full bg-white overflow-hidden">
+    <div
+      className={`relative rounded-full bg-white overflow-hidden ${
+        sub ? 'h-14 w-14' : 'h-9 w-9'
+      }`}
+    >
       <Image
         layout="fill"
         // objectFit="contain"

@@ -11,18 +11,21 @@ import { HiOutlineSpeakerphone } from 'react-icons/hi';
 import { RiCoinLine } from 'react-icons/ri';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { FcRating } from 'react-icons/fc';
+import Link from 'next/link';
 
 const Header = () => {
   const { data: session } = useSession();
   return (
-    <div className=" sticky top-0 z-25 flex items-center shadow-sm bg-white w-full">
+    <div className=" sticky top-0 z-50 flex items-center shadow-sm bg-white w-full">
       <div className="relative h-10 w-20 flex-shrink-0 cursor-pointer mx-2">
-        <Image
-          src="https://upload.wikimedia.org/wikipedia/en/5/58/Reddit_logo_new.svg"
-          layout="fill"
-          objectFit="contain"
-          priority={true}
-        />
+        <Link href="/" prefetch>
+          <Image
+            src="https://upload.wikimedia.org/wikipedia/en/5/58/Reddit_logo_new.svg"
+            layout="fill"
+            objectFit="contain"
+            priority={true}
+          />
+        </Link>
       </div>
       <div className="flex items-center justify-between mx-2 space-x-2 xl:min-w-[300px] lg:min-w-[260px]">
         <AiTwotoneHome className="h-5 w-5 cursor-pointer hover:scale-110 duration-300" />

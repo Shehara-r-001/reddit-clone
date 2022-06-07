@@ -18,7 +18,11 @@ type FormData = {
   subreddit: string;
 };
 
-const AddPost = () => {
+type Props = {
+  subreddit?: string;
+};
+
+const AddPost = ({ subreddit }: Props) => {
   const { data: session } = useSession();
   const {
     register,
@@ -44,7 +48,7 @@ const AddPost = () => {
       } = await client.query({
         query: GET_SUBREDDIT_BY_TOPIC,
         variables: {
-          topic: formData.subreddit,
+          topic: subreddit || formData.subreddit,
         },
       });
 
@@ -119,7 +123,13 @@ const AddPost = () => {
           {...register('postTitle', { required: true })}
           disabled={!session}
           type="text"
-          placeholder={session ? 'Create a post..' : 'Log in to create a post'}
+          placeholder={
+            session
+              ? subreddit
+                ? `Create a post in r/${subreddit}`
+                : 'Create a post..'
+              : 'Log in to create a post'
+          }
           className="bg-gray-50 p-1 px-4 outline-none text-sm rounded-sm flex-1"
         />
         <div className="flex items-center space-x-2">
@@ -144,15 +154,18 @@ const AddPost = () => {
               className="bg-gray-50 p-1 px-4 outline-none flex-1 rounded-sm"
             />
           </div>
-          <div className="text-sm flex items-center space-x-3 mt-2 mb-1">
-            <p className="font-semibold ml-2 min-w-[100px]">Subreddit</p>
-            <input
-              {...register('subreddit', { required: true })}
-              placeholder="i.e. r/cursedComments"
-              type="text"
-              className="bg-gray-50 p-1 px-4 outline-none flex-1 rounded-sm"
-            />
-          </div>
+
+          {!subreddit && (
+            <div className="text-sm flex items-center space-x-3 mt-2 mb-1">
+              <p className="font-semibold ml-2 min-w-[100px]">Subreddit</p>
+              <input
+                {...register('subreddit', { required: true })}
+                placeholder="i.e. r/cursedComments"
+                type="text"
+                className="bg-gray-50 p-1 px-4 outline-none flex-1 rounded-sm"
+              />
+            </div>
+          )}
           {openImageBox && (
             <div className="text-sm flex items-center space-x-3 mt-2 mb-1">
               <p className="font-semibold ml-2 min-w-[100px]">Image url</p>

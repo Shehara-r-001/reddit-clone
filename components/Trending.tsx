@@ -16,7 +16,7 @@ import {
 
 const Trending = () => {
   return (
-    <div className=" bg-white my-3 p-2 mx-1 lg:mx-0 flex justify-between items-center">
+    <div className=" bg-white my-3 p-2 mx-1 lg:mx-0 flex justify-between items-center shadow-sm">
       <div className="flex items-center w-3/4 justify-between lg:w-3/5">
         <div className="sortingDiv group flex items-center bg-blue-200 p-1 px-4 rounded-full border border-blue-300">
           <VscRocket className="sortIcon group-hover:text-[#3734ecfb] group-hover:-rotate-45 transition duration-300" />
