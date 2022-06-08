@@ -8,12 +8,24 @@ import { GoGift } from 'react-icons/go';
 import { RiShareForwardLine } from 'react-icons/ri';
 import { BsBookmark, BsThreeDots } from 'react-icons/bs';
 import Link from 'next/link';
+import { DotWave } from '@uiball/loaders';
+
+{
+  /* ; */
+}
 
 type Props = {
   post: Post;
 };
 
 const Post = ({ post }: Props) => {
+  if (!post)
+    return (
+      <div className="flex w-full items-center justify-center p-10">
+        <DotWave size={47} speed={1} color="#ff8080" />
+      </div>
+    );
+
   return (
     <Link href={`post/${post.id}`} prefetch>
       <div className="bg-white flex my-3 shadow-md rounded-sm mx-1 lg:mx-0">
@@ -22,7 +34,7 @@ const Post = ({ post }: Props) => {
           <p className="text-sm font-semibold">0</p>
           <RiArrowDownSFill className="voteIcons hover:text-red-400" />
         </div>
-        <div className="flex flex-col justify-center w-full">
+        <div className="flex flex-col justify-center w-full cursor-pointer">
           <div className="flex items-center mt-2">
             <Avatar seed={post.subreddit[0]?.topic} />
             <p className="text-xs ml-2">
@@ -57,7 +69,10 @@ const Post = ({ post }: Props) => {
           <div className="flex items-center justify-between my-3 px-2 w-4/5 lg:w-2/3">
             <div className="flex items-center text-xs group">
               <VscComment className="footerIcon" />
-              <p className="footerText">3 Comments</p>
+              <p className="footerText inline">
+                {post.comments.length}
+                <span className="footerText">Comments</span>
+              </p>
             </div>
             <div className="flex items-center text-xs group">
               <GoGift className="footerIcon" />
@@ -71,7 +86,7 @@ const Post = ({ post }: Props) => {
               <BsBookmark className="footerIcon" />
               <p className="footerText">Save</p>
             </div>
-            <BsThreeDots className="footerIcon" />
+            <BsThreeDots className="h-7 w-7 hover:scale-110 transition duration-300 hover:bg-blue-50 rounded-full p-1" />
           </div>
         </div>
       </div>

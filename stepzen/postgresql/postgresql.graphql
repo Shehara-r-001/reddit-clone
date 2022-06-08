@@ -74,6 +74,16 @@ type Query {
       configuration: "postgresql_config"
     )
 
+  getPostByPostID(post_id: ID!): Post
+    @dbquery(
+      type: "postgresql"
+      query: """
+      select * from "post"
+      where "post"."id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+
   getVotesByPostID(post_id: ID!): [Vote]
     @dbquery(
       type: "postgresql"
@@ -116,6 +126,7 @@ type Query {
       """
       configuration: "postgresql_config"
     )
+
   getPostList: [Post]
     @dbquery(
       type: "postgresql"
@@ -145,6 +156,7 @@ type Query {
       table: "subreddit"
       configuration: "postgresql_config"
     )
+
   getSubredditListByTopic(topic: String!): [Subreddit]
     @dbquery(
       type: "postgresql"
@@ -153,6 +165,7 @@ type Query {
       """
       configuration: "postgresql_config"
     )
+
   getVoteList: [Vote]
     @dbquery(
       type: "postgresql"
@@ -177,6 +190,14 @@ type Mutation {
       type: "postgresql"
       schema: "public"
       table: "post"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+
+  addAComment(post_id: ID!, username: String!, text: String!): Comment
+    @dbquery(
+      type: "postgresql"
+      table: "comment"
       dml: INSERT
       configuration: "postgresql_config"
     )

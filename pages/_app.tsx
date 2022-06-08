@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
     <ApolloProvider client={client}>
       <SessionProvider session={session}>
         <Toaster position="top-right" reverseOrder={false} />
-        <div className="h-screen overflow-y-scroll bg-gray-100 scrollbar-hide">
+        <div className="h-screen overflow-y-scroll bg-green-50 scrollbar-hide">
           <Header />
           <Component {...pageProps} />
         </div>
