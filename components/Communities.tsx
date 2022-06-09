@@ -20,7 +20,10 @@ const Communities = () => {
       </p>
       <div>
         {subreddits.map((sub, index) => (
-          <div className="flex items-center justify-between space-x-3 px-2">
+          <div
+            key={index}
+            className="flex items-center justify-between space-x-3 px-2"
+          >
             <p>{index + 1}</p>
 
             <Link href={`subreddit/${sub.topic}`}>
