@@ -25,7 +25,7 @@ const Post = ({ post }: Props) => {
 
   const { data, loading } = useQuery(GET_VOTES_BY_POST_ID, {
     variables: {
-      postId: post?.id,
+      post_id: post?.id,
     },
   });
 
@@ -56,6 +56,23 @@ const Post = ({ post }: Props) => {
     });
   };
 
+  const displayVotes = (data: any) => {
+    const votes: Vote[] = data?.getVotesByPostID;
+    const voteCount = votes?.reduce(
+      (total, vote) => (vote.upvote ? (total += 1) : (total -= 1)),
+      0
+    );
+
+    if (votes?.length === 0) {
+      return 0;
+    }
+    if (voteCount === 0) {
+      return votes[0]?.upvote ? 1 : -1;
+    }
+
+    return voteCount;
+  };
+
   useEffect(() => {
     const votes: Vote[] = data?.getVotesByPostID;
 
@@ -77,13 +94,13 @@ const Post = ({ post }: Props) => {
       <div className="flex flex-col items-center justify-star space-y-1 bg-gray-50 p-2">
         <RiArrowUpSFill
           onClick={() => upVote(true)}
-          className={`voteIcons hover:text-green-300 ${vote && 'text-red-400'}`}
+          className={`voteIcons hover:text-green-300 ${vote && 'text-red-500'}`}
         />
-        <p className="text-sm font-semibold">0</p>
+        <p className="text-sm font-semibold">{displayVotes(data)}</p>
         <RiArrowDownSFill
           onClick={() => upVote(false)}
           className={`voteIcons hover:text-red-400 ${
-            vote === false && 'text-purple-400'
+            vote === false && 'text-purple-500'
           }`}
         />
       </div>

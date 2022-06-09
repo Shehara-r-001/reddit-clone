@@ -2,6 +2,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import AddPost from '../components/AddPost';
+import Communities from '../components/Communities';
 import Feed from '../components/Feed';
 import Header from '../components/Header';
 import Trending from '../components/Trending';
@@ -15,9 +16,11 @@ const Home: NextPage = () => {
       </Head>
 
       <AddPost />
+
       <Trending />
-      <div>
+      <div className="flex">
         <Feed />
+        <Communities />
       </div>
     </div>
   );

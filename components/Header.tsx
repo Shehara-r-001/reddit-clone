@@ -55,8 +55,8 @@ const Header = () => {
             4
           </p>
         </div>
-        <FiPlus className="icon_header" />
-        <HiOutlineSpeakerphone className="icon_header bg-gray-100 rounded-full p-1 h-7 w-7" />
+        <FiPlus className="icon_header hidden sm:inline" />
+        <HiOutlineSpeakerphone className="icon_header bg-gray-100 rounded-full p-1 h-7 w-7 hidden sm:inline" />
         <div className="border border-orange-400 items-center rounded-full px-2 py-1 bg-gradient-to-b from-yellow-300 to-orange-400 hidden sm:flex hover:opacity-90 cursor-pointer">
           <RiCoinLine className="icon_header text-gray-700 -rotate-90" />
           <p className="text-xs mx-1 font-semibold">Free</p>

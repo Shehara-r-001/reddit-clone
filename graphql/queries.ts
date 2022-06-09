@@ -108,6 +108,16 @@ export const GET_VOTES_BY_POST_ID = gql`
   }
 `;
 
+export const GET_TOP_SUBREDDITS = gql`
+  query QueryGTS($limit: Int!) {
+    getTopSubreddits(limit: $limit) {
+      created_at
+      id
+      topic
+    }
+  }
+`;
+
 export const GET_SUBREDDIT_BY_TOPIC = gql`
   query QuerySRbyTopic($topic: String!) {
     getSubredditListByTopic(topic: $topic) {
