@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { RiArrowUpSFill, RiArrowDownSFill } from 'react-icons/ri';
 import Avatar from './Avatar';
 import TimeAgo from 'react-timeago';
@@ -9,16 +9,62 @@ import { RiShareForwardLine } from 'react-icons/ri';
 import { BsBookmark, BsThreeDots } from 'react-icons/bs';
 import Link from 'next/link';
 import { DotWave } from '@uiball/loaders';
-
-{
-  /* ; */
-}
+import { useSession } from 'next-auth/react';
+import toast from 'react-hot-toast';
+import { useMutation, useQuery } from '@apollo/client';
+import { GET_VOTES_BY_POST_ID } from '../graphql/queries';
+import { ADD_VOTE } from '../graphql/mutations';
 
 type Props = {
   post: Post;
 };
 
 const Post = ({ post }: Props) => {
+  const { data: session } = useSession();
+  const [vote, setVote] = useState<boolean>();
+
+  const { data, loading } = useQuery(GET_VOTES_BY_POST_ID, {
+    variables: {
+      postId: post?.id,
+    },
+  });
+
+  const [addVote] = useMutation(ADD_VOTE, {
+    refetchQueries: [GET_VOTES_BY_POST_ID, 'getVotesByPostID'],
+  });
+
+  const upVote = async (isUp: boolean) => {
+    if (!session) {
+      toast('You must be logged in to vote');
+      return;
+    }
+    if (vote && isUp) {
+      return;
+      // already upvoted
+    }
+    if (vote === false && !isUp) {
+      return;
+      // already downvoted
+    }
+
+    await addVote({
+      variables: {
+        post_id: post?.id,
+        username: session?.user?.name,
+        upvote: isUp,
+      },
+    });
+  };
+
+  useEffect(() => {
+    const votes: Vote[] = data?.getVotesByPostID;
+
+    const vote = votes?.find(
+      (vote) => vote.username == session?.user?.name
+    )?.upvote;
+    setVote(vote);
+  }, [data]);
+
   if (!post)
     return (
       <div className="flex w-full items-center justify-center p-10">
@@ -27,13 +73,21 @@ const Post = ({ post }: Props) => {
     );
 
   return (
-    <Link href={`post/${post.id}`} prefetch>
-      <div className="bg-white flex my-3 shadow-md rounded-sm mx-1 lg:mx-0">
-        <div className="flex flex-col items-center justify-star space-y-1 bg-gray-50 p-2">
-          <RiArrowUpSFill className="voteIcons hover:text-green-300" />
-          <p className="text-sm font-semibold">0</p>
-          <RiArrowDownSFill className="voteIcons hover:text-red-400" />
-        </div>
+    <div className="bg-white flex my-3 shadow-md rounded-sm mx-1 lg:mx-0">
+      <div className="flex flex-col items-center justify-star space-y-1 bg-gray-50 p-2">
+        <RiArrowUpSFill
+          onClick={() => upVote(true)}
+          className={`voteIcons hover:text-green-300 ${vote && 'text-red-400'}`}
+        />
+        <p className="text-sm font-semibold">0</p>
+        <RiArrowDownSFill
+          onClick={() => upVote(false)}
+          className={`voteIcons hover:text-red-400 ${
+            vote === false && 'text-purple-400'
+          }`}
+        />
+      </div>
+      <Link href={`post/${post.id}`} prefetch>
         <div className="flex flex-col justify-center w-full cursor-pointer">
           <div className="flex items-center mt-2">
             <Avatar seed={post.subreddit[0]?.topic} />
@@ -89,8 +143,8 @@ const Post = ({ post }: Props) => {
             <BsThreeDots className="h-7 w-7 hover:scale-110 transition duration-300 hover:bg-blue-50 rounded-full p-1" />
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 };
 
