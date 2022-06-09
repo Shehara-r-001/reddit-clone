@@ -104,12 +104,12 @@ const Post = ({ post }: Props) => {
           }`}
         />
       </div>
-      <Link href={`post/${post.id}`} prefetch>
+      <Link href={`post/${post.id}`}>
         <div className="flex flex-col justify-center w-full cursor-pointer">
           <div className="flex items-center mt-2">
             <Avatar seed={post.subreddit[0]?.topic} />
             <p className="text-xs ml-2">
-              <Link href={`/subreddit/${post.subreddit[0]?.topic}`} prefetch>
+              <Link href={`/subreddit/${post.subreddit[0]?.topic}`}>
                 <span className="font-bold hover:underline cursor-pointer">
                   r/{post.subreddit[0]?.topic}
                 </span>
