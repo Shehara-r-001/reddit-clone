@@ -18,7 +18,7 @@ const Header = () => {
   return (
     <div className=" sticky top-0 z-50 flex items-center shadow-sm bg-white w-full">
       <div className="relative h-10 w-20 flex-shrink-0 cursor-pointer mx-2">
-        <Link href="/" prefetch>
+        <Link href="/">
           <Image
             src="https://upload.wikimedia.org/wikipedia/en/5/58/Reddit_logo_new.svg"
             layout="fill"
